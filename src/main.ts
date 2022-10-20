@@ -1,6 +1,4 @@
 import { createApp } from 'vue'
-import { Button } from "ant-design-vue";
-import './style.css'
 import App from './App.vue'
 import { createRouter, createWebHistory} from 'vue-router'
 import routes from './router/index'
@@ -18,4 +16,4 @@ const router = createRouter({
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
-createApp(App).use(Button).use(router).use(pinia).mount('#app')
+createApp(App).use(router).use(pinia).mount('#app')
