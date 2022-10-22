@@ -3,7 +3,7 @@
     <a-row class="music">
       音乐 
       <a-switch v-model:checked="checked" @change="checkedChange"/>
-      <audio src="src/assets/gamePage.mp3"  loop ref="gameMusic"></audio>
+      <audio src="src/assets/gamePage.mp3" loop ref="gameMusic"></audio>
     </a-row>
     <a-row align="space-between">
       <a-button style="margin-bottom: 8px" @click="router.go(-1)"> 返回</a-button>
@@ -67,12 +67,27 @@
     <!-- 技能区 -->
     <div class="skill-board">
       <a-space>
-        <a-button size="small" @click="">撤回</a-button>
-        <a-button size="small" @click="">移出</a-button>
-        <a-button size="small" @click="">洗牌</a-button>
-        <a-button size="small" @click="">破坏</a-button>
+        <a-button size="small" @click="doRevert">撤回</a-button>
+        <a-button size="small" @click="doRemove">移出</a-button>
+        <a-button size="small" @click="doShuffle">洗牌</a-button>
+        <a-button size="small" @click="doBroke">破坏</a-button>
       </a-space>
+      
     </div>
+    <!-- 游戏失败 -->
+    <div  v-if="gameStatus === 2" class="game-failed">
+      <img src="../assets/failed.gif" alt="">
+      <p>小黑芝，你输了😹</p>
+      <a-button @click="router.go(0)">重新开始</a-button>
+    </div>
+    <!-- 游戏胜利 -->
+    <div v-if="gameStatus === 3" class="game-success">
+      <img src="../assets/success.gif" alt="">
+      <p>赢了也改变不了 小黑芝的身份👻</p>
+      <a-button @click="router.go(0)">再来一次</a-button>
+    </div>
+    <!-- 遮罩 -->
+    <div v-if="gameStatus === 2 || gameStatus === 3" class="mask"></div>
    
   </div>
 </template>
@@ -98,8 +113,16 @@ const{
     totalBlockNum,
     clearBlockNum,
     doStart,
-    doClickBlock
+    doClickBlock,
+    doShuffle,
+    doBroke,
+    doRevert,
+    doRemove,
 } = useGame();
+
+onMounted(()=>{
+  doStart();
+})
 
 // 开关
 const checked = ref<boolean>(false);
@@ -109,9 +132,8 @@ const gameMusic = ref();
 // 开关变化时
 const checkedChange = (checked : boolean) =>{
   const music = gameMusic.value;
+
   // 开启状态且音乐是暂停的
-  console.log(music.paused);
-  
   if(checked && music.paused){
     // 开启状态且暂停时
       music.play();
@@ -120,21 +142,7 @@ const checkedChange = (checked : boolean) =>{
     music.pause();
   }
 }
-// 点击块
-const doclick = (event) => {
-  console.log(event.target);
-};
 
-
-
-onMounted(()=>{
-  doStart();
-})
-
-
-
-
-  
 
 
 </script>
@@ -181,5 +189,48 @@ onMounted(()=>{
 .disabled {
   background-color: #777;
   cursor: not-allowed;
+}
+.game-failed,
+.game-success{
+  width: 320px;
+  height: 40vh;
+  position: fixed;
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  z-index: 10000;
+  transform: translate(-160px, -20vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.game-failed > img{
+  max-width: 200px;
+}
+.game-success > img{
+  max-width: 280px;
+}
+
+.game-failed p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #696969;
+}
+.game-success p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #696969;
+}
+
+.mask{
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin: auto;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 9999;
 }
 </style>>

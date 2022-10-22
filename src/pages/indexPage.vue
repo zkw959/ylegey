@@ -2,13 +2,14 @@
   <div class="indexPage">
     <h1>歪了个歪</h1>
     <div>仿羊了个羊小游戏，随便通关</div>
-    <a-button block="true" shape="round" @click="toGamePage(easyGameConfig)">简单模式</a-button>
-    <a-button block="true" shape="round" @click="toGamePage(easyGameConfig)">中等模式</a-button>
-    <a-button block="true" shape="round" @click="toGamePage(hardGameConfig)">困难模式</a-button>
-    <a-button block="true" shape="round" @click="toGamePage(lunaticGameConfig)">地狱模式</a-button>
-    <a-button block="true" shape="round" @click="toGamePage(skyGameConfig)">上天模式</a-button>
-    <a-button block="true" shape="round" @click="toGamePage(yangGameConfig)">羊了个羊模式</a-button>
-    <a-button block="true" shape="round" @click="toGamePage()">自定义模式</a-button>
+    <a-button block shape="round" @click="toGamePage(easyGameConfig)">简单模式</a-button>
+    <a-button block shape="round" @click="toGamePage(easyGameConfig)">中等模式</a-button>
+    <a-button block shape="round" @click="toGamePage(hardGameConfig)">困难模式</a-button>
+    <a-button block shape="round" @click="toGamePage(lunaticGameConfig)">地狱模式</a-button>
+    <a-button block shape="round" @click="toGamePage(skyGameConfig)">上天模式</a-button>
+    <a-button block shape="round" @click="toGamePage(yangGameConfig)">羊了个羊模式</a-button>
+    <a-button block shape="round" @click="toGamePage()">自定义模式</a-button>
+    
   </div>
 </template>
 
@@ -29,13 +30,12 @@ const router = useRouter();
 
 const { setGameConfig } = useglobalStore()
 
-const toGamePage = (config:GameConfigType) => {
+const toGamePage = (config?:GameConfigType) => {
   if(config){
-    
     setGameConfig(config)
     router.push('/game')
   }else{
-    router.push('/config')
+    router.push('/custom')
   }
   
 }
