@@ -3,7 +3,7 @@
     <a-row class="music">
       音乐 
       <a-switch v-model:checked="checked" @change="checkedChange"/>
-      <audio src="src/assets/gamePage.mp3" loop ref="gameMusic"></audio>
+      <audio :src="gamePageMusic" loop ref="gameMusic"></audio>
     </a-row>
     <a-row align="space-between">
       <a-button style="margin-bottom: 8px" @click="router.go(-1)"> 返回</a-button>
@@ -78,13 +78,13 @@
     <div  v-if="gameStatus === 2" class="game-failed">
       <img src="../assets/failed.gif" alt="">
       <p>小黑芝，你输了😹</p>
-      <a-button @click="router.go(0)">重新开始</a-button>
+      <a-button @click="reStart">重新开始</a-button>
     </div>
     <!-- 游戏胜利 -->
     <div v-if="gameStatus === 3" class="game-success">
       <img src="../assets/success.gif" alt="">
       <p>赢了也改变不了 小黑芝的身份👻</p>
-      <a-button @click="router.go(0)">再来一次</a-button>
+      <a-button @click="reStart">再来一次</a-button>
     </div>
     <!-- 遮罩 -->
     <div v-if="gameStatus === 2 || gameStatus === 3" class="mask"></div>
@@ -97,7 +97,7 @@ import useGame from "@/core/game";
 import { useglobalStore } from "@/store";
 import { onMounted, ref } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
-
+import gamePageMusic from "@/assets/gamePage.mp3";
 
 const router = useRouter();
 
@@ -123,7 +123,10 @@ const{
 onMounted(()=>{
   doStart();
 })
-
+// 重新开始
+const reStart = () => {
+  window.location.reload();
+};
 // 开关
 const checked = ref<boolean>(false);
 

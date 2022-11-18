@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHashHistory} from 'vue-router'
 import routes from './router/index'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
@@ -8,7 +8,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 // 创建路由
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes
 })
 
